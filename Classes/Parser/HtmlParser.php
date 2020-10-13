@@ -170,21 +170,23 @@ class HtmlParser implements LoggerAwareInterface
     {
         if (preg_match($this->tagPattern, $tag, $matchedUrls)) {
             $resourceUri = $matchedUrls[1];
-            $replace = $this->delegate->publishResourceUri($resourceUri);
-            $tagParts = explode($matchedUrls[1], $tag, 2);
-            if ($tagParts !== false) {
-                $tag = $this->recursion(rtrim($tagParts[0], '/') . '/' . $replace, $tagParts[1]);
+            if (!empty($resourceUri)) {
+                $replace = $this->delegate->publishResourceUri($resourceUri);
+                $tagParts = explode($matchedUrls[1], $tag, 2);
+                if ($tagParts !== false) {
+                    $tag = $this->recursion(rtrim($tagParts[0], '/') . '/' . $replace, $tagParts[1]);
 
-                // Some output for debugging
-                if ($this->logLevel === 1) {
-                    $this->logger->notice(sprintf('New output: %s', $tag));
-                } elseif ($this->logLevel >= 2) {
-                    $this->logger->info(sprintf('Regular expression: %s', $this->tagPattern));
-                    $this->logger->info(sprintf('Matching URLs: %s', implode(',', $matchedUrls)));
-                    $this->logger->notice(sprintf('Build tag (part 1): %s', $tagParts[0]));
-                    $this->logger->notice(sprintf('Build tag (replace): %s', $replace));
-                    $this->logger->notice(sprintf('Build tag (part 1): %s', $tagParts[0]));
-                    $this->logger->notice(sprintf('New output: %s', $tag));
+                    // Some output for debugging
+                    if ($this->logLevel === 1) {
+                        $this->logger->notice(sprintf('New output: %s', $tag));
+                    } elseif ($this->logLevel >= 2) {
+                        $this->logger->info(sprintf('Regular expression: %s', $this->tagPattern));
+                        $this->logger->info(sprintf('Matching URLs: %s', implode(',', $matchedUrls)));
+                        $this->logger->notice(sprintf('Build tag (part 1): %s', $tagParts[0]));
+                        $this->logger->notice(sprintf('Build tag (replace): %s', $replace));
+                        $this->logger->notice(sprintf('Build tag (part 1): %s', $tagParts[0]));
+                        $this->logger->notice(sprintf('New output: %s', $tag));
+                    }
                 }
             }
         }
