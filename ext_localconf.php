@@ -13,7 +13,7 @@ call_user_func(
 
         // Register eID script
         // TODO: This part is deprecated and will be removed with version 5
-        $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['tx_securedownloads'] = 'EXT:secure_downloads/Resources/Private/Scripts/FileDeliveryEidDispatcher.php';
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['tx_securedownloads'] = 'Bitmotion\SecureDownloads\Eid\FileDeliveryEidDispatcher::start';
 
         // Register hooks
         // TODO: This part is deprecated and will be removed with version 5
