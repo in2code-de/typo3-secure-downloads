@@ -132,7 +132,7 @@ class FileDelivery
             $this->pageId = (int)GeneralUtility::_GP('p');
             $this->expiryTime = (int)GeneralUtility::_GP('t');
             $this->file = GeneralUtility::_GP('file');
-            $this->calculatedHash = isset($data) ? '' : $this->getHash($this->file, $this->userId, $this->userGroups, $this->expiryTime);
+            $this->calculatedHash = isset($data) ? '' : $this->getHash((string)$this->file, $this->userId, $this->userGroups, $this->expiryTime);
         }
 
         $this->dispatchOutputInitializationEvent();
@@ -577,7 +577,7 @@ class FileDelivery
 
     protected function dispatchOutputInitializationEvent()
     {
-        if (version_compare(TYPO3_version, '10.2.0', '>=')) {
+        if (version_compare(TYPO3_version, '10.2.0', '>=') && $this->file !== null) {
             /** @var OutputInitializationEvent $event */
             $event = new OutputInitializationEvent($this->userId, $this->userGroups, $this->file, $this->expiryTime);
             $event = ($this->eventDispatcher ?? $this->initializeEventDispatcher())->dispatch($event);
